@@ -53,7 +53,7 @@ Checked **2026-11-11** unless otherwise noted. “Not applicable” means the ve
 
 | Dependency | Latest version / date | Maintainers or vendor | License / terms | Limits or price | Other notes | Checked on |
 |---|---|---|---|---|---|---|
-| Wrangler | **4.160.0 listed as latest** on [npm versions](https://www.npmjs.com/package/wrangler?activeTab=versions); package **pinned to 4.146.0** in this repo | Cloudflare | [npm package](https://www.npmjs.com/package/wrangler); check installed package license with `npm view wrangler@4.146.0 license` | npm package installation $0; Cloudflare account usage separately billed by product | The former `^4` range could resolve a later version; [Cloudflare recommends local project installs](https://developers.cloudflare.com/workers/wrangler/install-and-update/). Exact publication date for 4.146.0 not yet verified | 2026-11-11 |
+| Wrangler | **4.160.1 shown as current on npm** on [npm versions](https://www.npmjs.com/package/wrangler?activeTab=versions); package **pinned to 4.146.0** in this repo | Cloudflare | [npm package](https://www.npmjs.com/package/wrangler); check installed package license with `npm view wrangler@4.146.0 license` | npm package installation $0; Cloudflare account usage separately billed by product | The former `^4` range could resolve a later version; [Cloudflare recommends local project installs](https://developers.cloudflare.com/workers/wrangler/install-and-update/). Exact publication date for 4.146.0 not yet verified | 2026-11-11 |
 | Workers | Platform, no pinned service release | Cloudflare | [Cloudflare terms](https://www.cloudflare.com/website-terms/) | Free: **100,000 requests/day**, **10 ms CPU/request**, **128 MB memory**; [official limits](https://developers.cloudflare.com/workers/platform/limits/) | Exceeding free request limits interrupts access | 2026-11-11 |
 | D1 | Managed service, no pinned release | Cloudflare | [Cloudflare terms](https://www.cloudflare.com/website-terms/) | Free: **5 million rows read/day**, **100,000 written/day**, **5 GB storage**; [official pricing](https://developers.cloudflare.com/d1/platform/pricing/) | This prototype has one **shared table without user authentication**. CORS does not make its data private. This is a serious institutional-fit limitation. | 2026-11-11 |
 | GitHub Pages | Hosting service, no npm release | GitHub | [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) | Available for public repositories under [GitHub Free](https://github.com/pricing) ($0 plan) | Proposed frontend host, not yet verified live or allowed by Worker CORS | 2026-11-11 |
@@ -74,8 +74,8 @@ These are project-specific judgments (not third-party risk ratings). **Adopt** =
 | Dependency | Stability | Pricing | Institutional fit | Exit cost | Weighted | Ring | Reason in one line |
 |---|---:|---:|---:|---:|---:|---|---|
 | Wrangler 4.146.0 | 4 | 5 | 5 | 4 | **4.45** | Adopt | Official tool, exact-pinned for controlled upgrades |
-| Workers | 4 | 5 | 4 | 3 | **4.20** | Adopt | Fits the small API; vendor migration requires rewriting deployment |
-| D1 | 4 | 5 | 2 | 2 | **3.40** | Trial | Shared publicly accessible records make real personal data inappropriate |
+| Workers | 4 | 5 | 4 | 3 | **4.05** | Adopt | Fits the small API; vendor migration requires rewriting deployment |
+| D1 | 4 | 5 | 2 | 2 | **3.45** | Trial | Shared publicly accessible records make real personal data inappropriate |
 | GitHub Pages | 4 | 5 | 4 | 5 | **4.45** | Trial | Good static host, but new app deployment/CORS is still unverified |
 | GitHub repo | 5 | 5 | 5 | 5 | **5.00** | Adopt | Git history can be cloned to other hosts |
 | Codespaces | 4 | 3 | 4 | 5 | **3.95** | Adopt | Portable dev setup; free quota can run out |

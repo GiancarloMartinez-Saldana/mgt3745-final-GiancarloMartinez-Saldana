@@ -1,0 +1,45 @@
+/* styles.css
+   Presentation only. Every value below the :root block comes from a token,
+   and every token matches the frontmatter of context/STYLE.md: when you
+   change one, change both. */
+:root {
+  --color-primary: #123552;
+  --color-text: #172B40;
+  --color-background: #F7F9FB;
+  --color-surface: #FFFFFF;
+  --color-focus: #B16D00;
+  --color-error: #922020;
+  --color-border: #526578;
+  --color-divider: #B8C5D0;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-size-min: 16px;
+  --target-min: 44px;
+  --radius: 0.3rem;
+
+  font-family: var(--font-body);
+  font-size: var(--font-size-min);
+  color: var(--color-text);
+  background: var(--color-background);
+}
+body { margin: 0; }
+main { max-width: 44rem; margin: 2rem auto; padding: 0 1.25rem; }
+h1 { font-size: 2rem; }
+p { line-height: 1.5; }
+label { display: block; font-weight: 700; margin-bottom: 0.5rem; }
+/* Room for the 3px focus outline plus its 3px offset (6px) on both sides of
+   an input, so it never covers a label. */
+input + label { margin-top: 1rem; }
+.optional { font-weight: 400; }
+input { box-sizing: border-box; display: block; width: 100%; min-height: var(--target-min); font: inherit; padding: 0.8rem; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); }
+button { min-height: var(--target-min); margin: 0.75rem 0; padding: 0.6rem 1rem; font: inherit; background: var(--color-primary); color: var(--color-surface); border: 2px solid var(--color-primary); border-radius: var(--radius); cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+input[aria-invalid="true"] { border: 2px solid var(--color-error); }
+#note-error { color: var(--color-error); }
+#note-list { padding: 0; list-style: none; }
+#note-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; border-bottom: 1px solid var(--color-divider); }
+#note-list span { flex: 1 1 15rem; overflow-wrap: anywhere; line-height: 1.5; }
+/* bolt's date line, kept on its own row under the name, price and Delete.
+   DDR-001 fix: bolt made it 0.9rem (14.4px, under font-size-min) in raw
+   #526578; it is information, not decoration, so it uses the body size and
+   color-text like the rest of the row. */
+#note-list .renewal-date { flex: 1 1 100%; margin: -0.75rem 0 0.75rem; line-height: 1.5; font-size: var(--font-size-min); color: var(--color-text); }

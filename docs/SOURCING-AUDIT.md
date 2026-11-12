@@ -73,17 +73,17 @@ These are project-specific judgments (not third-party risk ratings). **Adopt** =
 
 | Dependency | Stability | Pricing | Institutional fit | Exit cost | Weighted | Ring | Reason in one line |
 |---|---:|---:|---:|---:|---:|---|---|
-| Wrangler 4.146.0 | 4 | 5 | 5 | 4 | **4.40** | Adopt | Official tool, exact-pinned for controlled upgrades |
+| Wrangler 4.146.0 | 4 | 5 | 5 | 4 | **4.45** | Adopt | Official tool, exact-pinned for controlled upgrades |
 | Workers | 4 | 5 | 4 | 3 | **4.20** | Adopt | Fits the small API; vendor migration requires rewriting deployment |
 | D1 | 4 | 5 | 2 | 2 | **3.40** | Trial | Shared publicly accessible records make real personal data inappropriate |
-| GitHub Pages | 4 | 5 | 4 | 5 | **4.40** | Trial | Good static host, but new app deployment/CORS is still unverified |
+| GitHub Pages | 4 | 5 | 4 | 5 | **4.45** | Trial | Good static host, but new app deployment/CORS is still unverified |
 | GitHub repo | 5 | 5 | 5 | 5 | **5.00** | Adopt | Git history can be cloned to other hosts |
-| Codespaces | 4 | 3 | 4 | 5 | **3.90** | Adopt | Portable dev setup; free quota can run out |
-| Live Server | 4 | 5 | 4 | 5 | **4.40** | Adopt | Only a local convenience; easy to replace |
-| Copilot | 3 | 3 | 2 | 5 | **3.50** | Hold | Not required for product; unnecessary source exposure if not being used |
-| Claude Code (historic) | 3 | 3 | 4 | 5 | **3.90** | Assess | Important to verify authored changes, but app does not depend on the service |
-| bolt.new (historic) | 3 | 3 | 3 | 5 | **3.70** | Hold | Generated source already integrated; no current hosting dependency |
-| Google AI Studio (historic) | 3 | 3 | 3 | 5 | **3.70** | Hold | Generated comparison artifact, not a runtime dependency |
+| Codespaces | 4 | 3 | 4 | 5 | **3.95** | Adopt | Portable dev setup; free quota can run out |
+| Live Server | 4 | 5 | 4 | 5 | **4.45** | Adopt | Only a local convenience; easy to replace |
+| Copilot | 3 | 3 | 2 | 5 | **3.20** | Hold | Not required for product; unnecessary source exposure if not being used |
+| Claude Code (historic) | 3 | 3 | 4 | 5 | **3.60** | Assess | Important to verify authored changes, but app does not depend on the service |
+| bolt.new (historic) | 3 | 3 | 3 | 5 | **3.40** | Hold | Generated source already integrated; no current hosting dependency |
+| Google AI Studio (historic) | 3 | 3 | 3 | 5 | **3.40** | Hold | Generated comparison artifact, not a runtime dependency |
 
 ### Exit Plans (all user-serving/data services and all Trial/Assess)
 

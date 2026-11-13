@@ -92,7 +92,7 @@ Hours are estimates for a simple prototype, **not time already spent**.
 | Dependency | Trigger | Substitute | Hours to swap | Tested? (date and how) |
 |---|---|---|---:|---|
 | Workers | Free limits become insufficient or API unavailable for a day | Node.js API deployed to another host such as Render | 6–10 | **Not tested** |
-| D1 | Must support real/private users, data export needed, or free terms change | SQLite hosted with a Node backend | 8–14 (more with authentication) | **Not tested**; `npm run db:export` exists, but no export has been verified |
+| D1 | Must support real/private users, data export needed, or free terms change | SQLite hosted with a Node backend | 8–14 (more with authentication) | **Export step tested successfully, 2026-11-12 Central / Nov 13 UTC:** `npx wrangler d1 export mgt3745-entries --local --output=backup.sql` returned `Done!`; `ls -lh backup.sql` reported a 641-byte file; `grep -m 1 "CREATE TABLE" backup.sql` returned `CREATE TABLE entries (`. This tests **local export and SQL schema presence**, not remote export or restore. |
 | GitHub Pages | Public static hosting fails or needs server logic | Cloudflare Pages static hosting | 1–3 | **Not tested** |
 | Codespaces | Monthly free quota exhausted | Local Node 22 + VS Code | 1–2 | **Not tested** |
 | Copilot | Unused editor extension creates unnecessary data exposure | Disable extension/use normal VS Code | 0.25 | **Not tested** |
@@ -100,11 +100,11 @@ Hours are estimates for a simple prototype, **not time already spent**.
 | bolt.new | Builder no longer available | Direct editing of current HTML/CSS/JS | 0.5 setup | **Not tested**; app does not require bolt at runtime |
 | Google AI Studio | Builder unavailable | Direct editing of existing app | 0.5 setup | **Not tested**; app does not require it at runtime |
 
-**Required hands-on exit test is outstanding.** Recommended low-risk test: export D1 to a local `backup.sql` using `npm run db:export` from an authenticated Codespace, inspect the output file, and verify it includes the table definition. **Do not commit real backup data.** Record the observed result and date here once done.
+**Hands-on exit step completed:** On 2026-11-12 (Central; terminal recorded Nov 13 UTC), the local D1 export succeeded and the resulting `backup.sql` file was verified to exist and contain the `entries` table definition. This provides a real tested export step, but does **not** demonstrate a successful import, restored records, or a remote D1 backup. The backup must stay out of GitHub; `backup.sql` is already in `.gitignore`.
 
 ### Changes Caused by This Audit
 
-- **Security-driven exact-version replacement (verified 2026-11-12):** initial Wrangler 4.146.0 produced **4 high-severity vulnerabilities** in npm audit, involving `sharp` and `undici` through `miniflare`. Updated to **Wrangler 4.161.0** with `npm install --save-dev --save-exact wrangler@4.161.0`. The next `npm audit` returned **0 vulnerabilities**, and `npm ls --depth=0` confirmed the new version. The version remains exact-pinned. Review the corresponding GitHub `package.json`/`package-lock.json` upgrade commit in history. Initial pin commit: `5cf5fc1ad5adc887b5c5870b677435acbbc16c86`.
+- **Security-driven exact-version replacement (verified 2026-11-12):** initial Wrangler 4.146.0 produced **4 high-severity vulnerabilities** in npm audit, involving `sharp` and `undici` through `miniflare`. Updated to **Wrangler 4.161.0** with `npm install --save-dev --save-exact wrangler@4.161.0`. The next `npm audit` returned **0 vulnerabilities**, and `npm ls --depth=0` confirmed the new version. The version remains exact-pinned. GitHub commit [`7070160`](https://github.com/GiancarloMartinez-Saldana/mgt3745-final-GiancarloMartinez-Saldana/commit/7070160) records the upgrade to 4.161.0. Initial pin commit: `5cf5fc1ad5adc887b5c5870b677435acbbc16c86`.
 - **Remove unused scaffold:** removed the unused starter Gemini/AI-Gateway Worker and its template test; the product uses the HW5 subscription Worker instead. This reduces unnecessary dependency surface.
 - **Architecture:** see `docs/ADR-001.md` for adopted HW5 architecture and safety limitations.
 - **Delegation:** see `docs/DDR-LOG.md` for AI assistance and necessary human verification.
@@ -114,4 +114,4 @@ Hours are estimates for a simple prototype, **not time already spent**.
 
 **Supported.** D1 received **Trial** due to the shared unauthenticated database; GitHub Pages also received Trial because deployment is still unverified. The original falsifiable prediction is therefore met, independent of whether all follow-up work is finished.
 
-**Remaining milestone tasks:** perform and record a real exit test, capture the updated transitive dependency tree and precise upstream package dates, test the deployed Worker against Cloudflare, and deploy/verify the live frontend before calling this audit complete.
+**Remaining milestone tasks:** capture the updated transitive dependency tree and precise upstream package dates, test a deployed Worker against Cloudflare, and deploy/verify a permanent live frontend before calling the entire project production-ready. The **local Codespaces preview now works** after serving frontend assets and API together on port 8787; this is not a permanent deployment.

@@ -2,7 +2,7 @@
 
 **One sentence:** A simple streaming subscription dashboard for people who want to list their services, see their combined monthly spending, and track optional renewal dates.
 
-**Application status:** HW5 prototype source and tests imported on November 11, 2026. **Final-repo deployment, database migration status, and new test run are not yet verified.**  
+**Application status:** Working local Codespaces preview verified by user on November 12, 2026; seven local Worker API tests passed, and `npm audit` found zero vulnerabilities after updating Wrangler to 4.161.0. **Permanent Cloudflare deployment is not yet verified.**  
 **Live API from HW5 (historical, not a verified final-project deployment):** https://mgt3745-hw4.mgt3745-hw4-giancarlo.workers.dev/entries  
 **Hours spent on final-project port:** Not tracked yet.
 
@@ -18,7 +18,7 @@ This final project reuses the [HW5 subscription tracker](https://github.com/Gian
 
 ## See It Work
 
-The [HW5 demonstration](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5#see-it-work) shows the prior prototype. Final-project GIF and live deployment URL have **not yet been produced**.
+The [HW5 demonstration](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5#see-it-work) shows the prior prototype. Final-project permanent deployment and GIF have **not yet been produced**. A working **temporary Codespaces preview** has been tested using Wrangler's same-origin static assets on port 8787.
 
 ## How to run the transferred project
 
@@ -40,7 +40,7 @@ npx wrangler d1 execute mgt3745-entries --local --file=schema.sql
 npm run dev
 ```
 
-Serve `index.html` with VS Code Live Server on port 5500. The page points to `http://127.0.0.1:8787` when opened from localhost/127.0.0.1.
+The Worker now serves the dashboard and API together from **port 8787** (configured with `[assets] directory = "./public"` in `wrangler.toml`). Open the Codespaces forwarded port 8787 in a browser rather than using Live Server on port 5500. The same-origin setup avoids cross-port browser authorization issues.
 
 Run the API tests only once the local Worker is actually running:
 
@@ -50,7 +50,7 @@ API=http://127.0.0.1:8787 npm test
 
 **Important:** The browser's non-local API URL in `app.js` still references the HW5 Worker. Before publishing the final site, deploy the new Worker with `npm run deploy`, replace `deployedApi` in `app.js` with the actual new deployed URL, confirm CORS allows the frontend origin, and run tests. No new Worker URL is claimed until the deployment has happened. The root `wrangler.toml` names the intended new Worker `mgt3745-final-subscriptions`.
 
-For the sourcing audit's mandatory exit test, from a Cloudflare-authenticated Codespace run `npm run db:export`; inspect the backup locally, **never commit it**, and record the observed date and result in the audit. A schema/data backup can contain user data.
+**Exit step verified on November 12, 2026 (Central):** `npx wrangler d1 export mgt3745-entries --local --output=backup.sql` succeeded; the resulting 641-byte file contained `CREATE TABLE entries (`. This proves the **local D1 export step only**, not a remote export or restored database. Do not commit `backup.sql`.
 
 ## The Record
 
@@ -70,6 +70,6 @@ For the sourcing audit's mandatory exit test, from a Cloudflare-authenticated Co
 
 ## AI Use
 
-HW5 records its use of Claude Code, bolt.new, and Google AI Studio in the original DDR files. ChatGPT with a GitHub connection was used on November 11, 2026 to transfer and organize the source files, identify a narrower runtime dependency set, review vendor information and create the sourcing audit. The copied tests have not been rerun in this session; human verification in Codespaces remains necessary.
+HW5 records its use of Claude Code, bolt.new, and Google AI Studio in the original DDR files. ChatGPT with a GitHub connection was used on November 11, 2026 to transfer and organize the source files, identify a narrower runtime dependency set, review vendor information and create the sourcing audit. The user subsequently ran the copied tests in Codespaces against the local Worker and reported **7 passed, 0 failed**; npm audit returned **0 vulnerabilities** after the Wrangler update. A local D1 export was also verified.
 
-**Milestone follow-up:** confirm package installation and warnings, audit packages, run the live tests, complete one exit test, deploy the new Worker and frontend, and record actual results before final grading.
+**Remaining deployment follow-up:** deploy the new Worker and static assets, test the permanent public URL, and add it to this README. The local preview, seven local tests, vulnerability remediation, and local export are already documented in the audit.

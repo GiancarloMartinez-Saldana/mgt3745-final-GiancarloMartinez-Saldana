@@ -30,7 +30,7 @@ Audited code transferred from [HW5](https://github.com/GiancarloMartinez-Saldana
 
 | Dependency | Kind | Where it is recorded | Ships to users? |
 |---|---|---|---|
-| Wrangler 4.146.0 | dev package | `package.json`, `package-lock.json` | No, deploy/build tool only |
+| Wrangler 4.161.0 | dev package | `package.json`, `package-lock.json` | No, deploy/build tool only |
 | Cloudflare Workers | platform | `wrangler.toml`, `worker.js`, `app.js` | Yes, serves the API |
 | Cloudflare D1 | database/platform | `wrangler.toml`, `schema.sql`, `worker.js` | Yes, stores data |
 | GitHub Pages (planned; not verified deployed) | hosting platform | `index.html`, README | Only after deployment |
@@ -53,7 +53,7 @@ Checked **2026-11-11** unless otherwise noted. “Not applicable” means the ve
 
 | Dependency | Latest version / date | Maintainers or vendor | License / terms | Limits or price | Other notes | Checked on |
 |---|---|---|---|---|---|---|
-| Wrangler | **4.160.1 shown as current on npm** on [npm versions](https://www.npmjs.com/package/wrangler?activeTab=versions); package **pinned to 4.146.0** in this repo | Cloudflare | [npm package](https://www.npmjs.com/package/wrangler); check installed package license with `npm view wrangler@4.146.0 license` | npm package installation $0; Cloudflare account usage separately billed by product | The former `^4` range could resolve a later version; [Cloudflare recommends local project installs](https://developers.cloudflare.com/workers/wrangler/install-and-update/). Exact publication date for 4.146.0 not yet verified | 2026-11-11 |
+| Wrangler | **4.161.0 installed and exact-pinned** in this project, as verified on 2026-11-12 with `npm ls --depth=0`; latest upstream release date not independently confirmed | Cloudflare | [npm package](https://www.npmjs.com/package/wrangler); check installed package license with `npm view wrangler@4.146.0 license` | npm package installation $0; Cloudflare account usage separately billed by product | The earlier exact pin at 4.146.0 had **4 high-severity audit findings** caused by its dependencies (`sharp` and `undici` through `miniflare`). Upgrading to 4.161.0 resolved all 4 in `npm audit` (2026-11-12). [Cloudflare installation guidance](https://developers.cloudflare.com/workers/wrangler/install-and-update/). Upstream release date and exact publishing accounts still need checking | 2026-11-11 |
 | Workers | Platform, no pinned service release | Cloudflare | [Cloudflare terms](https://www.cloudflare.com/website-terms/) | Free: **100,000 requests/day**, **10 ms CPU/request**, **128 MB memory**; [official limits](https://developers.cloudflare.com/workers/platform/limits/) | Exceeding free request limits interrupts access | 2026-11-11 |
 | D1 | Managed service, no pinned release | Cloudflare | [Cloudflare terms](https://www.cloudflare.com/website-terms/) | Free: **5 million rows read/day**, **100,000 written/day**, **5 GB storage**; [official pricing](https://developers.cloudflare.com/d1/platform/pricing/) | This prototype has one **shared table without user authentication**. CORS does not make its data private. This is a serious institutional-fit limitation. | 2026-11-11 |
 | GitHub Pages | Hosting service, no npm release | GitHub | [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) | Available for public repositories under [GitHub Free](https://github.com/pricing) ($0 plan) | Proposed frontend host, not yet verified live or allowed by Worker CORS | 2026-11-11 |
@@ -73,7 +73,7 @@ These are project-specific judgments (not third-party risk ratings). **Adopt** =
 
 | Dependency | Stability | Pricing | Institutional fit | Exit cost | Weighted | Ring | Reason in one line |
 |---|---:|---:|---:|---:|---:|---|---|
-| Wrangler 4.146.0 | 4 | 5 | 5 | 4 | **4.45** | Adopt | Official tool, exact-pinned for controlled upgrades |
+| Wrangler 4.161.0 | 4 | 5 | 5 | 4 | **4.45** | Adopt | Found 4 high-severity advisories on 4.146.0, then exact-upgraded and verified 0 remaining |
 | Workers | 4 | 5 | 4 | 3 | **4.05** | Adopt | Fits the small API; vendor migration requires rewriting deployment |
 | D1 | 4 | 5 | 2 | 2 | **3.45** | Trial | Shared publicly accessible records make real personal data inappropriate |
 | GitHub Pages | 4 | 5 | 4 | 5 | **4.45** | Trial | Good static host, but new app deployment/CORS is still unverified |
@@ -104,14 +104,14 @@ Hours are estimates for a simple prototype, **not time already spent**.
 
 ### Changes Caused by This Audit
 
-- **Pin Wrangler exactly:** updated `package.json` to `4.146.0`, matching the existing HW5 lockfile version. Package change commit: `5cf5fc1ad5adc887b5c5870b677435acbbc16c86`; lockfile import/pin commit: `3e3423fa880af3a553e699281c09dc0cfaab7e3e`. This makes upgrades deliberate instead of accepting any v4 release.
+- **Security-driven exact-version replacement (verified 2026-11-12):** initial Wrangler 4.146.0 produced **4 high-severity vulnerabilities** in npm audit, involving `sharp` and `undici` through `miniflare`. Updated to **Wrangler 4.161.0** with `npm install --save-dev --save-exact wrangler@4.161.0`. The next `npm audit` returned **0 vulnerabilities**, and `npm ls --depth=0` confirmed the new version. The version remains exact-pinned. Review the corresponding GitHub `package.json`/`package-lock.json` upgrade commit in history. Initial pin commit: `5cf5fc1ad5adc887b5c5870b677435acbbc16c86`.
 - **Remove unused scaffold:** removed the unused starter Gemini/AI-Gateway Worker and its template test; the product uses the HW5 subscription Worker instead. This reduces unnecessary dependency surface.
 - **Architecture:** see `docs/ADR-001.md` for adopted HW5 architecture and safety limitations.
 - **Delegation:** see `docs/DDR-LOG.md` for AI assistance and necessary human verification.
-- **Tests:** HW5's README documents 7/7 tests in **October 2026**; that is **historical**, not a post-transfer pass. **Post-port `npm install`, `npm audit`, API integration tests and deployment remain unverified** because the Cloudflare-authenticated Codespace was not available in this session.
+- **Tests (verified 2026-11-12):** the final project's Codespace ran `API=http://127.0.0.1:8787 npm test` against a **local** running Worker/D1 environment. Node's test runner reported **7 tests, 7 passed, 0 failed**, duration **485.454614 ms**, covering GET entries, rejection of invalid requests, save/read, optional renewal dates, and invalid-date rejection. `npm audit` independently reported **found 0 vulnerabilities** after the upgrade. These results verify the local API, **not** a new production deployment.
 
 ### Prediction Stake Resolution
 
 **Supported.** D1 received **Trial** due to the shared unauthenticated database; GitHub Pages also received Trial because deployment is still unverified. The original falsifiable prediction is therefore met, independent of whether all follow-up work is finished.
 
-**Remaining milestone tasks:** verify `npm install` warnings and installed count, `npm audit`, run a real exit test, test the transferred API against a Cloudflare environment, and deploy/verify a live frontend before marking this audit complete.
+**Remaining milestone tasks:** perform and record a real exit test, capture the updated transitive dependency tree and precise upstream package dates, test the deployed Worker against Cloudflare, and deploy/verify the live frontend before calling this audit complete.

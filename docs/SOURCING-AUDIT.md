@@ -31,9 +31,9 @@ Audited code transferred from [HW5](https://github.com/GiancarloMartinez-Saldana
 | Dependency | Kind | Where it is recorded | Ships to users? |
 |---|---|---|---|
 | Wrangler 4.161.0 | dev package | `package.json`, `package-lock.json` | No, deploy/build tool only |
-| Cloudflare Workers | platform | `wrangler.toml`, `worker.js`, `app.js` | Yes, serves the API |
+| Cloudflare Workers / static assets | platform | `wrangler.toml`, `worker.js`, `public/` | Yes, serves the API and dashboard |
 | Cloudflare D1 | database/platform | `wrangler.toml`, `schema.sql`, `worker.js` | Yes, stores data |
-| GitHub Pages (planned; not verified deployed) | hosting platform | `index.html`, README | Only after deployment |
+| GitHub Pages (alternative considered, not deployed) | hosting platform | prior plan, README | No; deployed dashboard is on Workers static assets |
 | GitHub repository | platform | repository and README | No, source collaboration |
 | GitHub Codespaces / Node 22 image | development platform | `.devcontainer/devcontainer.json` | No |
 | Live Server VS Code extension | development tool | `.devcontainer/devcontainer.json` | No |
@@ -43,7 +43,7 @@ Audited code transferred from [HW5](https://github.com/GiancarloMartinez-Saldana
 | Google AI Studio | AI builder, historically used | HW5 `docs/DDR-001.md` | No direct runtime service |
 | Local `app.js` | authored script | `index.html` | Yes, but **not** an external CDN dependency |
 
-**Installed package count:** the HW5 committed lockfile lists **91 package records under `node_modules/`** (including optional platform variants) and 1 root project record. It contains one directly chosen npm dependency, `wrangler`. This is a **lockfile count, not a verified installed `npm ls --all` count**. To finish inventory grading, run `npm install` and `npm ls --all` in this final project's Codespace, report the installed total and all warnings, and compare with the lockfile.
+**Installed package inventory, verified in Codespaces on 2026-11-12:** Before upgrade, `npm ci` **added 40 packages, audited 41 packages**; `npm ls --all` showed Wrangler 4.146.0 plus transitive Miniflare, Sharp, Undici and platform-specific `UNMET OPTIONAL DEPENDENCY` entries (normal for other operating systems), and three extraneous artifacts. After `npm install --save-dev --save-exact wrangler@4.161.0`, npm **audited 39 packages** with 0 vulnerabilities. `npm ls --depth=0` reported **one direct dependency** (`wrangler@4.161.0`) and 3 extraneous artifacts (`@emnapi/runtime`, `@img/sharp-wasm32`, `tslib`). A complete post-upgrade `npm ls --all` has not been captured. The original HW5 lockfile's 91 package records include optional variants and should not be misreported as 91 installed packages.
 
 **CDN scripts:** the copied `index.html` uses a locally hosted `app.js` and `styles.css`; no external CDN script is listed.
 
@@ -53,10 +53,10 @@ Checked **2026-11-11** unless otherwise noted. “Not applicable” means the ve
 
 | Dependency | Latest version / date | Maintainers or vendor | License / terms | Limits or price | Other notes | Checked on |
 |---|---|---|---|---|---|---|
-| Wrangler | **4.161.0 installed and exact-pinned** in this project, as verified on 2026-11-12 with `npm ls --depth=0`; latest upstream release date not independently confirmed | Cloudflare | [npm package](https://www.npmjs.com/package/wrangler); check installed package license with `npm view wrangler@4.146.0 license` | npm package installation $0; Cloudflare account usage separately billed by product | The earlier exact pin at 4.146.0 had **4 high-severity audit findings** caused by its dependencies (`sharp` and `undici` through `miniflare`). Upgrading to 4.161.0 resolved all 4 in `npm audit` (2026-11-12). [Cloudflare installation guidance](https://developers.cloudflare.com/workers/wrangler/install-and-update/). Upstream release date and exact publishing accounts still need checking | 2026-11-11 |
-| Workers | Platform, no pinned service release | Cloudflare | [Cloudflare terms](https://www.cloudflare.com/website-terms/) | Free: **100,000 requests/day**, **10 ms CPU/request**, **128 MB memory**; [official limits](https://developers.cloudflare.com/workers/platform/limits/) | Exceeding free request limits interrupts access | 2026-11-11 |
+| Wrangler | **4.161.0 installed and exact-pinned** in this project, as verified on 2026-11-12 with `npm ls --depth=0`; latest upstream release date not independently confirmed | Cloudflare | [npm package](https://www.npmjs.com/package/wrangler); check installed package license with `npm view wrangler@4.161.0 license` | npm package installation $0; Cloudflare account usage separately billed by product | The earlier exact pin at 4.146.0 had **4 high-severity audit findings** caused by its dependencies (`sharp` and `undici` through `miniflare`). Upgrading to 4.161.0 resolved all 4 in `npm audit` (2026-11-12). [Cloudflare installation guidance](https://developers.cloudflare.com/workers/wrangler/install-and-update/). Upstream release date and exact publishing accounts still need checking | 2026-11-11 |
+| Workers + static assets | Platform, no pinned service release | Cloudflare | [Cloudflare terms](https://www.cloudflare.com/website-terms/) | Free: **100,000 requests/day**, **10 ms CPU/request**, **128 MB memory**; [official limits](https://developers.cloudflare.com/workers/platform/limits/) | Exceeding free request limits interrupts access | 2026-11-11 |
 | D1 | Managed service, no pinned release | Cloudflare | [Cloudflare terms](https://www.cloudflare.com/website-terms/) | Free: **5 million rows read/day**, **100,000 written/day**, **5 GB storage**; [official pricing](https://developers.cloudflare.com/d1/platform/pricing/) | This prototype has one **shared table without user authentication**. CORS does not make its data private. This is a serious institutional-fit limitation. | 2026-11-11 |
-| GitHub Pages | Hosting service, no npm release | GitHub | [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) | Available for public repositories under [GitHub Free](https://github.com/pricing) ($0 plan) | Proposed frontend host, not yet verified live or allowed by Worker CORS | 2026-11-11 |
+| GitHub Pages (considered, not deployed) | Hosting service, no npm release | GitHub | [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) | Available for public repositories under [GitHub Free](https://github.com/pricing) ($0 plan) | Not selected: Worker now serves UI assets on same origin as API; retained as a potential alternative | 2026-11-12 |
 | GitHub repo | Hosted version control | GitHub | [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) | [Free](https://github.com/pricing) $0 with unlimited public/private repositories | Public commits are durable: keep secrets out of all commits | 2026-11-11 |
 | Codespaces / Node 22 devcontainer | Development environment | GitHub and Microsoft | [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) | Personal Free accounts: **120 core-hours and 15 GB-month**, [official documentation](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces) | This is a GitHub Free example; actual user's plan and quota are **not verified** | 2026-11-11 |
 | Live Server | VS Code extension (development only) | ritwickdey (extension id in devcontainer) | Verify extension Marketplace license before final submission | Local editor extension; no paid API in project | Replacement: Python's or Node's local static server | 2026-11-11 |
@@ -65,7 +65,7 @@ Checked **2026-11-11** unless otherwise noted. “Not applicable” means the ve
 | bolt.new | Historic AI builder | StackBlitz | [bolt.new](https://bolt.new/) terms apply | Plan/usage not verified numerically | HW5 documents its code generation and subsequent fixes, but not current reliance | 2026-11-11 |
 | Google AI Studio | Historic AI builder | Google | [AI Studio](https://aistudio.google.com/) terms apply | Plan/quotas change by model and tier, not verified here | HW5 session generated comparison artifact; no model call in shipped subscription app | 2026-11-11 |
 
-**Evidence still to collect for full credit:** precise package release date, maintainer publishing accounts and license via `npm view`; `npm audit` results; numerical limits and current terms for any builder you intend to keep using. Where details have not been checked, the table says so instead of inventing them.
+**Evidence still to collect for full credit:** precise package release date, maintainer publishing accounts and license via `npm view`; numerical limits and current terms for any builder you intend to keep using. **Actual `npm audit` was run after the upgrade and reported zero vulnerabilities.** Where details have not been checked, the table says so instead of inventing them.
 
 ### Scores and Rings
 
@@ -74,9 +74,9 @@ These are project-specific judgments (not third-party risk ratings). **Adopt** =
 | Dependency | Stability | Pricing | Institutional fit | Exit cost | Weighted | Ring | Reason in one line |
 |---|---:|---:|---:|---:|---:|---|---|
 | Wrangler 4.161.0 | 4 | 5 | 5 | 4 | **4.45** | Adopt | Found 4 high-severity advisories on 4.146.0, then exact-upgraded and verified 0 remaining |
-| Workers | 4 | 5 | 4 | 3 | **4.05** | Adopt | Fits the small API; vendor migration requires rewriting deployment |
+| Workers | 4 | 5 | 4 | 3 | **4.05** | Adopt | Fits deployed API and static website; vendor migration requires rewriting deployment |
 | D1 | 4 | 5 | 2 | 2 | **3.45** | Trial | Shared publicly accessible records make real personal data inappropriate |
-| GitHub Pages | 4 | 5 | 4 | 5 | **4.45** | Trial | Good static host, but new app deployment/CORS is still unverified |
+| GitHub Pages (not deployed) | 4 | 5 | 4 | 5 | **4.45** | Hold | Considered alternative, but the app already serves its UI from Cloudflare Workers; no reason to adopt another frontend host |
 | GitHub repo | 5 | 5 | 5 | 5 | **5.00** | Adopt | Git history can be cloned to other hosts |
 | Codespaces | 4 | 3 | 4 | 5 | **3.95** | Adopt | Portable dev setup; free quota can run out |
 | Live Server | 4 | 5 | 4 | 5 | **4.45** | Adopt | Only a local convenience; easy to replace |
@@ -93,7 +93,7 @@ Hours are estimates for a simple prototype, **not time already spent**.
 |---|---|---|---:|---|
 | Workers | Free limits become insufficient or API unavailable for a day | Node.js API deployed to another host such as Render | 6–10 | **Not tested** |
 | D1 | Must support real/private users, data export needed, or free terms change | SQLite hosted with a Node backend | 8–14 (more with authentication) | **Export step tested successfully, 2026-11-12 Central / Nov 13 UTC:** `npx wrangler d1 export mgt3745-entries --local --output=backup.sql` returned `Done!`; `ls -lh backup.sql` reported a 641-byte file; `grep -m 1 "CREATE TABLE" backup.sql` returned `CREATE TABLE entries (`. This tests **local export and SQL schema presence**, not remote export or restore. |
-| GitHub Pages | Public static hosting fails or needs server logic | Cloudflare Pages static hosting | 1–3 | **Not tested** |
+| GitHub Pages (not deployed) | Only adopt if Cloudflare Worker static hosting becomes unsuitable | Cloudflare Pages or another static host | 1–3 | **Not applicable: no GitHub Pages dependency deployed** |
 | Codespaces | Monthly free quota exhausted | Local Node 22 + VS Code | 1–2 | **Not tested** |
 | Copilot | Unused editor extension creates unnecessary data exposure | Disable extension/use normal VS Code | 0.25 | **Not tested** |
 | Claude Code | Service unavailable or outputs fail review | Manual editing + tests in Codespaces | 0.5 setup, variable development | **Not tested** |
@@ -112,6 +112,6 @@ Hours are estimates for a simple prototype, **not time already spent**.
 
 ### Prediction Stake Resolution
 
-**Supported.** D1 received **Trial** due to the shared unauthenticated database; GitHub Pages also received Trial because deployment is still unverified. The original falsifiable prediction is therefore met, independent of whether all follow-up work is finished.
+**Supported.** D1 received **Trial** due to the shared unauthenticated database; optional development/builder services were also assessed conservatively. GitHub Pages was **not deployed** because the Worker now serves both API and frontend assets. The original falsifiable prediction is therefore met, independent of whether all follow-up work is finished.
 
-**Remaining milestone tasks:** capture the updated transitive dependency tree and precise upstream package dates, test a deployed Worker against Cloudflare, and deploy/verify a permanent live frontend before calling the entire project production-ready. The **local Codespaces preview now works** after serving frontend assets and API together on port 8787; this is not a permanent deployment.
+**Final deployed verification (2026-11-12):** Cloudflare uploaded three assets (`/index.html`, `/styles.css`, `/app.js`) and deployed `mgt3745-final-subscriptions` at https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/. A remote database query confirmed that the D1 `entries` table exists. The user manually confirmed **create → refresh/persistence → delete**, including monthly total updating, in the public website. Remaining limitations: the API is unauthenticated and all entries are shared, remote export/restore was not tested, the live renewal-date round-trip was not independently checked, and a post-upgrade transitive package tree and some vendor release/license metadata remain unverified.

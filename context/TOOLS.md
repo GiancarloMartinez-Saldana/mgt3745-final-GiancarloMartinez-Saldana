@@ -4,7 +4,7 @@ Checked on: 2026-11-11; deployment/test status updated 2026-11-12. For dated ven
 
 | Tool | Purpose | Ring | Checked on | Limit or price | Exit |
 |---|---|---|---|---|---|
-| Wrangler 4.161.0 | Deploy and develop Cloudflare Worker; exact-pinned, npm audit 0 vulnerabilities after upgrade from 4.146.0 | Adopt | 2026-11-12 | npm tool $0; host charged separately | Replace CLI when replacing hosting |
+| Wrangler 4.161.0 | Deploy/develop Worker; exact-pinned; listed npm publisher `wrangler-publisher` (workers-devprod@cloudflare.com), MIT OR Apache-2.0; npm audit 0 vulnerabilities | Adopt | 2026-11-12 | npm tool $0; host charged separately | Replace CLI when replacing hosting |
 | Cloudflare Workers and static assets | Deployed subscription API and dashboard (same origin) | Adopt | 2026-11-12 | Free: 100,000 requests/day | Move API to Node.js hosting |
 | Cloudflare D1 | Stores subscription names, prices and renewal dates; shared unauthenticated data | Trial | 2026-11-12 | Free: 5M rows read/day, 100k written/day, 5 GB | Export SQL and migrate to SQLite |
 | GitHub Pages (considered, not used) | Alternate static frontend; not the deployed host | Hold | 2026-11-12 | Free public-repo hosting | No migration needed; already hosted by Cloudflare Workers |
@@ -16,6 +16,8 @@ Checked on: 2026-11-11; deployment/test status updated 2026-11-12. For dated ven
 | Claude Code (historical) | AI-assisted HW5 integration | Assess | 2026-11-11 | Not a runtime cost; plan-specific | Manual coding and tests |
 | bolt.new (historical) | HW5 page generation | Hold | 2026-11-11 | Not verified | Edit shipped code directly |
 | Google AI Studio (historical) | HW5 alternative builder | Hold | 2026-11-11 | Not verified | Edit shipped code directly |
+
+**Npm inventory (2026-11-12):** 38 installed dependency paths excluding project root, counted with `npm ls --all --parseable 2>/dev/null | sed '1d' | wc -l`. Wrangler 4.161.0 is the single direct dependency. `npm view wrangler version` returned `4.161.0` as the latest at check time. See the sourcing audit for the exact command outputs and caveats.
 
 ## Trust boundaries
 - Users' service names, monthly prices, and renewal dates cross from the browser to Cloudflare Workers and D1. **All entries are in one shared table without authentication.** Do not enter real, private subscription information.

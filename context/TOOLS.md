@@ -11,6 +11,7 @@ Checked on: 2026-11-11; deployment/test status updated 2026-11-12. For dated ven
 | GitHub | Source repository and history | Adopt | 2026-11-11 | Free plan $0 | Clone repo onto another git host |
 | GitHub Codespaces | Node 22 development | Adopt | 2026-11-11 | GitHub Free personal example: 120 core-hours and 15 GB-month | Local VS Code and Node 22 |
 | Live Server | Local browser preview | Adopt | 2026-11-11 | No paid API identified | Node/Python static server |
+| Markdown Mermaid extension | Optional editor-only Markdown diagram preview in VS Code; not deployed | Hold | 2026-11-12 | Free editor extension; no paid app API | Use built-in/GitHub Markdown preview |
 | GitHub Copilot extension | Optional editor assistant | Hold | 2026-11-11 | Plan dependent | Disable/remove extension |
 | Claude Code (historical) | AI-assisted HW5 integration | Assess | 2026-11-11 | Not a runtime cost; plan-specific | Manual coding and tests |
 | bolt.new (historical) | HW5 page generation | Hold | 2026-11-11 | Not verified | Edit shipped code directly |

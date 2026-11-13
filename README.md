@@ -2,7 +2,7 @@
 
 **One sentence:** A simple streaming subscription dashboard for people who want to list their services, see their combined monthly spending, and track optional renewal dates.
 
-**Application status:** Cloudflare Wrangler successfully deployed the final-project Worker and three static assets on November 12, 2026. Seven local Worker API tests passed and `npm audit` found zero vulnerabilities after updating Wrangler to 4.161.0. **Remote D1 schema and production data operations are not yet verified:** the `wrangler d1 list` output showed zero tables.  
+**Application status:** Cloudflare Wrangler successfully deployed the final-project Worker and three static assets on November 12, 2026. Seven local Worker API tests passed and `npm audit` found zero vulnerabilities after updating Wrangler to 4.161.0. **Remote D1 presence verified:** `wrangler d1 execute mgt3745-entries --remote --command="SELECT name FROM sqlite_master WHERE type='table';"` returned the `entries` table, despite `wrangler d1 list` previously displaying zero in its table-count column. **Production create/read/delete through the browser still needs verification.**  
 **Final-project deployed website:** https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/  
 **Final-project API endpoint:** https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/entries  
 **Live API from HW5 (historical):** https://mgt3745-hw4.mgt3745-hw4-giancarlo.workers.dev/entries  
@@ -20,7 +20,7 @@ This final project reuses the [HW5 subscription tracker](https://github.com/Gian
 
 ## See It Work
 
-The [HW5 demonstration](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5#see-it-work) shows the prior prototype. The final-project Worker and frontend were deployed to https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/ (Wrangler confirmed upload of three static files). **Production database operations still need verification.** The temporary Codespaces preview worked using Wrangler's same-origin static assets on port 8787.
+The [HW5 demonstration](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5#see-it-work) shows the prior prototype. The final-project Worker and frontend were deployed to https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/ (Wrangler confirmed upload of three static files). **The remote `entries` table exists; browser-level production create/read/delete still needs verification.** The temporary Codespaces preview worked using Wrangler's same-origin static assets on port 8787.
 
 ## How to run the transferred project
 
@@ -74,4 +74,4 @@ API=http://127.0.0.1:8787 npm test
 
 HW5 records its use of Claude Code, bolt.new, and Google AI Studio in the original DDR files. ChatGPT with a GitHub connection was used on November 11, 2026 to transfer and organize the source files, identify a narrower runtime dependency set, review vendor information and create the sourcing audit. The user subsequently ran the copied tests in Codespaces against the local Worker and reported **7 passed, 0 failed**; npm audit returned **0 vulnerabilities** after the Wrangler update. A local D1 export was also verified.
 
-**Remaining deployment follow-up:** inspect the remote D1 schema, initialize it only if the `entries` table is absent, and test save/list/delete through the public URL using fictional data. The Worker and static files are deployed; the local preview, seven local tests, vulnerability remediation, and local export are documented in the audit.
+**Remaining deployment follow-up:** verify the remote `entries` table columns (including `renewal_date`) and test save/list/delete through the public URL using fictional data. The remote table is already present; **do not rerun schema creation or the renewal-date migration blindly.** The Worker and static files are deployed; the local preview, seven local tests, vulnerability remediation, and local export are documented in the audit.

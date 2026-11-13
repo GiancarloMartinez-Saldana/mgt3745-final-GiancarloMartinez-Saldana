@@ -6,7 +6,6 @@
 **Final-project deployed website:** https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/  
 **Final-project API endpoint:** https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/entries  
 **Live API from HW5 (historical):** https://mgt3745-hw4.mgt3745-hw4-giancarlo.workers.dev/entries  
-**Hours spent on final-project port:** Not tracked yet.
 
 ## What the project does
 

@@ -14,7 +14,13 @@
     : '';
   // The query switch makes "server unreachable" repeatable: nothing listens on port 9.
   const simulateServerDown = new URLSearchParams(window.location.search).has('serverDown');
+  // The Worker can serve this same page as a static asset on port 8787.
+  // Calling /entries on that SAME origin avoids Codespaces cross-port auth/CORS.
+  const onWorkerOrigin = (isLocalPage && window.location.port === '8787')
+    || /-8787\.app\.github\.dev$/.test(window.location.hostname)
+    || window.location.hostname.endsWith('.workers.dev');
   const api = simulateServerDown ? 'http://127.0.0.1:9'
+    : onWorkerOrigin ? window.location.origin
     : isLocalPage ? 'http://127.0.0.1:8787'
     : isCodespacesPreview ? codespacesApi
     : deployedApi;

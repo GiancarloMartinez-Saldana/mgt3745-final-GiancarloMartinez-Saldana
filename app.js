@@ -4,13 +4,19 @@
   // HW4: subscriptions now live in Cloudflare D1 behind the Worker (ADR-002).
   // Paste your deployed Worker URL here after `npx wrangler deploy`.
   const deployedApi = 'https://mgt3745-hw4.mgt3745-hw4-giancarlo.workers.dev';
-  // A page served from this machine talks to `npm run dev` instead, so the
-  // failure modes in FEATURES.md can be tested without touching the real table.
+  // Use the local Worker when this page is opened from Live Server.
+  // Codespaces forwards each port to its own https://...-PORT.app.github.dev host;
+  // the browser cannot use 127.0.0.1 to reach the Codespace from your computer.
   const isLocalPage = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  const isCodespacesPreview = /-5500\.app\.github\.dev$/.test(window.location.hostname);
+  const codespacesApi = isCodespacesPreview
+    ? window.location.origin.replace(/-5500\.app\.github\.dev$/, '-8787.app.github.dev')
+    : '';
   // The query switch makes "server unreachable" repeatable: nothing listens on port 9.
   const simulateServerDown = new URLSearchParams(window.location.search).has('serverDown');
   const api = simulateServerDown ? 'http://127.0.0.1:9'
     : isLocalPage ? 'http://127.0.0.1:8787'
+    : isCodespacesPreview ? codespacesApi
     : deployedApi;
 
   // ---- HW3, for the record (superseded by ADR-002) ------------------------

@@ -2,7 +2,7 @@
 
 **One sentence:** A simple streaming subscription dashboard for people who want to list their services, see their combined monthly spending, and track optional renewal dates.
 
-**Application status:** Cloudflare Wrangler successfully deployed the final-project Worker and three static assets on November 12, 2026. Seven local Worker API tests passed and `npm audit` found zero vulnerabilities after updating Wrangler to 4.161.0. **Remote D1 presence verified:** `wrangler d1 execute mgt3745-entries --remote --command="SELECT name FROM sqlite_master WHERE type='table';"` returned the `entries` table, despite `wrangler d1 list` previously displaying zero in its table-count column. **Production create/read/delete through the browser still needs verification.**  
+**Application status:** Cloudflare Wrangler successfully deployed the final-project Worker and three static assets on November 12, 2026. Seven local Worker API tests passed and `npm audit` found zero vulnerabilities after updating Wrangler to 4.161.0. **Remote D1 presence verified:** `wrangler d1 execute mgt3745-entries --remote --command="SELECT name FROM sqlite_master WHERE type='table';"` returned the `entries` table, despite `wrangler d1 list` previously displaying zero in its table-count column. **Live browser smoke test passed (user-verified November 12, 2026): create a fictional subscription, refresh to confirm persistence, and delete it with the total updated.**  
 **Final-project deployed website:** https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/  
 **Final-project API endpoint:** https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/entries  
 **Live API from HW5 (historical):** https://mgt3745-hw4.mgt3745-hw4-giancarlo.workers.dev/entries  
@@ -16,11 +16,11 @@ Users can manually enter a streaming service, a monthly price, and optionally a 
 
 ## Origin and scope
 
-This final project reuses the [HW5 subscription tracker](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5), including its renewal-date feature, worker API, database schema/migration, and test suite. The HW5 README reports 7/7 API tests passing in October 2026; those historical results **do not** confirm the new repository passes after the port.
+This final project reuses the [HW5 subscription tracker](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5), including its renewal-date feature, worker API, database schema/migration, and test suite. The HW5 README reports 7/7 API tests passing in October 2026. The transferred final repository was **independently retested** on November 12, 2026: **7/7 local API tests passed**.
 
 ## See It Work
 
-The [HW5 demonstration](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5#see-it-work) shows the prior prototype. The final-project Worker and frontend were deployed to https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/ (Wrangler confirmed upload of three static files). **The remote `entries` table exists; browser-level production create/read/delete still needs verification.** The temporary Codespaces preview worked using Wrangler's same-origin static assets on port 8787.
+The [HW5 demonstration](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5#see-it-work) shows the prior prototype. The final-project Worker and frontend were deployed to https://mgt3745-final-subscriptions.mgt3745-hw4-giancarlo.workers.dev/ (Wrangler confirmed upload of three static files). **The remote `entries` table exists, and user-reported live browser smoke tests passed for create, persistence after refresh, and delete with updated total (November 12, 2026).** The temporary Codespaces preview worked using Wrangler's same-origin static assets on port 8787.
 
 ## How to run the transferred project
 
@@ -50,7 +50,7 @@ Run the API tests only once the local Worker is actually running:
 API=http://127.0.0.1:8787 npm test
 ```
 
-**Important:** The browser's non-local API URL in `app.js` still references the HW5 Worker. Before publishing the final site, deploy the new Worker with `npm run deploy`, replace `deployedApi` in `app.js` with the actual new deployed URL, confirm CORS allows the frontend origin, and run tests. No new Worker URL is claimed until the deployment has happened. The root `wrangler.toml` names the intended new Worker `mgt3745-final-subscriptions`.
+**Deployment note:** The final-project Worker and static dashboard are **already deployed** to the URL above. The deployed `public/app.js` calls the Worker API on its **same origin**, so it does not use the historical HW5 fallback URL for this public website. Its fallback `deployedApi` constant remains for pages opened from other unrecognized hosts; do not use that URL to verify the final deployment. The remote D1 database is the same database previously configured for HW5; the `entries` table exists. Use fictional data only.
 
 **Exit step verified on November 12, 2026 (Central):** `npx wrangler d1 export mgt3745-entries --local --output=backup.sql` succeeded; the resulting 641-byte file contained `CREATE TABLE entries (`. This proves the **local D1 export step only**, not a remote export or restored database. Do not commit `backup.sql`.
 
@@ -68,10 +68,11 @@ API=http://127.0.0.1:8787 npm test
 | Historical HW5 evaluations | [context/EVALS.md](context/EVALS.md) |
 | AI delegation log | [docs/DDR-LOG.md](docs/DDR-LOG.md) |
 | Historical HW5 delegation | [HW5 DDRs](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5/tree/main/docs) |
-| Deployment notes (starter) | [docs/DEPLOY.md](docs/DEPLOY.md) |
+| **Deployment steps and verification** | [docs/DEPLOY.md](docs/DEPLOY.md) |
+| **Deployment decision** | [docs/ADR-002.md](docs/ADR-002.md) |
 
 ## AI Use
 
 HW5 records its use of Claude Code, bolt.new, and Google AI Studio in the original DDR files. ChatGPT with a GitHub connection was used on November 11, 2026 to transfer and organize the source files, identify a narrower runtime dependency set, review vendor information and create the sourcing audit. The user subsequently ran the copied tests in Codespaces against the local Worker and reported **7 passed, 0 failed**; npm audit returned **0 vulnerabilities** after the Wrangler update. A local D1 export was also verified.
 
-**Remaining deployment follow-up:** verify the remote `entries` table columns (including `renewal_date`) and test save/list/delete through the public URL using fictional data. The remote table is already present; **do not rerun schema creation or the renewal-date migration blindly.** The Worker and static files are deployed; the local preview, seven local tests, vulnerability remediation, and local export are documented in the audit.
+**Verification summary (Nov 12, 2026):** `npm audit` returned 0 vulnerabilities; local API `npm test` reported 7 passed/0 failed; a local D1 database export succeeded; the remote `entries` table exists; Wrangler deployed the final Worker and 3 static assets; the user manually verified live create, reload/persistence, and delete with the monthly total updating. Not yet independently checked: a live renewal-date round trip, remote database export/restore, and new GIF/video demo.

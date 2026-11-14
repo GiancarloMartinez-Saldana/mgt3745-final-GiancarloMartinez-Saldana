@@ -49,6 +49,15 @@ Confirms a cross-participant pattern (subscription undercounting) seen in INT-01
 JOB-01: When I can't decide what to watch and searching feels overwhelming, I want to have a safe option I already trust, so I can start watching without the risk of picking something disappointing. Evidence: INT-01's near automatic Gilmore Girls fallback ("99% of the time"), explicitly framed as avoiding disappointment rather than genuine preference for that show over anything new.
 JOB-02: When I sit down to watch something, I want to watch with focus and in order, so I can actually follow and appreciate what I'm watching (rather than half-watching whatever's on). Evidence: his explicit before/after comparison of childhood casual watching vs. now watching "with intent."
 
+## Cost-tracking job interpretation for the final prototype (added 2026-11-14)
+
+These are **inferences from the two September 10 interviews**, not additional participant quotations, direct requests for the software, or evidence from a separate study. The original JOB-01/JOB-02 above focus on finding something to watch; this final prototype tests only their **subscription-count awareness** problem.
+
+- **JOB-COST-01 (inferred from INT-01):** When I manage several shared and family streaming subscriptions, I want one clear list of which services I can access and their estimated monthly costs, so I do not lose count. Evidence: INT-01 guessed 5 subscriptions and then counted 7. Limitation: the participant did not directly ask for a cost tracker, and some accounts are paid for by others.
+- **JOB-COST-02 (inferred from INT-02):** When I decide which services to keep paying for, I want to see my services and estimated total at once, so I can compare the money committed with the content I actually use. Evidence: INT-02 guessed 4 subscriptions and counted 5; the cost/use decision is an **inference**, not an expressed request to cancel a service.
+
+**Unresolved user evidence:** Neither interview measured usability of the deployed dashboard, accuracy of self-entered prices, or willingness to adopt it. Two interviewees cannot establish prevalence.
+
 ## Two user profiles
 
 Role: College student, lives off-campus with roommates; shares streaming accounts with roommates and family rather than paying individually for most services.

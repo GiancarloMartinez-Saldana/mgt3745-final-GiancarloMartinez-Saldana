@@ -105,3 +105,6 @@ The rows that became code in HW5:
 | Disposable D1 SQL restore | Not performed | Local SQL export only | PENDING |
 | Worker rollback rehearsal | Not performed | Procedure documented in DEPLOY.md only | PENDING |
 | Independent usability task study | Not performed | Historical interviews are not an app usability study | PENDING |
+
+**Post-documentation retest — November 14, 2026:** The owner supplied the full output of `API=http://127.0.0.1:8787 npm test`: **7 tests, 7 passing, 0 failing, 0 skipped**, duration **713.171047 ms**. Tests covered GET ordering, invalid/missing entry, successful save/read, invalid prices, stored optional renewal dates, no-date entry and invalid date rejection. This confirms the updated checked-out project still passes its **local** API suite after documentation changes; it does not establish production rollback, remote restore or authenticated user isolation. An updated npm audit output was not part of this retest.
+

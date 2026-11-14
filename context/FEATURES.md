@@ -9,7 +9,13 @@ Streaming viewers who already subscribe to multiple platforms face two related b
 PROFILE-01 — College student who shares streaming accounts with roommates and family. Frequently can't decide what to watch and defaults to rewatching a familiar comfort show (Gilmore Girls) rather than risk disappointment on something new. Budget-conscious, shared-account friction includes ads on a roommate's cheaper tier and repeated logouts from an out-of-state location. Evidence: INT-01, JOB-01.
 PROFILE-02 — Fraternity member with mostly personal subscriptions. Has shifted from casual, out of order childhood viewing to watching with deliberate focus and intent. Follows a structured decision path (time available → format → Recommended/My List → browse) and, when nothing fits, switches platforms (YouTube), waits, or pirates rather than adding a new subscription. Evidence: INT-02, JOB-02.
 
-## Scope
+## Final-project implementation boundary (reconciled 2026-11-14)
+
+This document **preserves the broader September 2026 HW3 product concept** and its original acceptance criteria for traceability. Not every listed feature is implemented. The final project's working, verified subset is **F-01** (manual subscription list and monthly total), **F-05** (name, price, optional renewal date), validation, and create/read/delete using a Cloudflare Worker and shared D1 database. The final app **does not** implement **F-02** safe picks, **F-03** mood/format search, **F-04** usage nudges, or **F-06** explanation-based recommendations. It also **does not edit** an existing subscription; delete-and-readd is the available workaround. Historical Behavior steps 3–7 and the related Acceptance rows are **deferred, not silently PASS**. HW5 verification records below remain historical evidence; the final repository independently passed seven local Worker API tests on November 12, and the user confirmed live save/reload/delete with fictional data.
+
+The reason for the narrowed scope is in [the final project decision](../docs/ADR-001.md) and [PROJECT.md](PROJECT.md): a small, inspectable cost-awareness prototype, rather than a catalog/recommendation engine or a private financial account. **This reconciliation was written after the November 12 milestone snapshot; it does not change the original September spec or its prediction history.**
+
+## Scope (original broader product proposal)
 
 Included behavior:
 

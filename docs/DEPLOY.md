@@ -38,7 +38,7 @@ Remote D1 export and restore have **not** been verified. The live renewal-date r
 
 ## Fresh post-documentation API verification — November 14, 2026
 
-The owner reran `API=http://127.0.0.1:8787 npm test` against the running **local** Worker and shared the complete terminal output: **7 tests, 7 passed, 0 failed, 0 skipped**, total duration **713.171047 ms**. The reported cases cover creation-order GET; missing-text rejection; valid POST/GET persistence; nonpositive-price rejection; optional renewal-date storage/read-back; no-date save; and invalid-calendar-date rejection. This is a **new local test run**, not a production test or deployment. No rollback or remote D1 restoration was run. An updated `npm audit` result has not been supplied in this new check; the earlier November 12 result was 0 vulnerabilities.
+The owner reran `API=http://127.0.0.1:8787 npm test` against the running **local** Worker and shared the complete terminal output: **7 tests, 7 passed, 0 failed, 0 skipped**, total duration **713.171047 ms**. The reported cases cover creation-order GET; missing-text rejection; valid POST/GET persistence; nonpositive-price rejection; optional renewal-date storage/read-back; no-date save; and invalid-calendar-date rejection. This is a **new local test run**, not a production test or deployment. No rollback or remote D1 restoration was run. The owner also subsequently reran `npm audit` on November 14 and reported **0 vulnerabilities**. This is a user-reported terminal result; the full output of that second audit was not provided.
 
 ## Rollback runbook — prepared November 14, 2026; NOT YET REHEARSED
 

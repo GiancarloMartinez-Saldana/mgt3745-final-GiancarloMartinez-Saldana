@@ -129,3 +129,37 @@ Door / concrete acquisition and execution choice: Hand-built. Vanilla HTML/CSS/J
 Context: F-01 needs to launch this week on a zero-dollar budget, inside a Codespace, verified against EARS acceptance criteria. F-01's own non-goals rule out most existing subscription-tracking services, since those typically require credential access or bank-statement scraping, which conflicts with the manual-entry constraint. I am a first-time programmer, so an AI-assisted build carries a real inspectability risk: I cannot yet independently verify that generated code is correct, which the course treats as a legitimate scoring input.
 Decision: Build the subscription cost dashboard by hand, using vanilla JavaScript and localStorage, rather than integrating an existing subscription-tracking service or delegating implementation to an AI agent without full personal review.
 Consequences and revisit trigger: Full inspectability and zero cost are gained; every line is one I can explain, satisfying this course's literacy requirement ahead of modules where delegated code must be reviewed. What's lost is speed and convenience — development is slower than an AI-assisted or Buy approach would allow, and users must manually enter every subscription rather than having them auto-detected. This decision must be revisited when Module 4 introduces a real database, since localStorage does not support multi-device or multi-user sync (already flagged in FEATURES.md's Constraints). At that point, ADR-002 should be written and this record marked Superseded — the reasoning here remains accurate for this week's constraints even after it's superseded.
+
+## Final-project addendum — November 14, 2026 (not part of original HW4 Gate)
+
+**Current authority:** The first 130 lines above record the historical HW3/HW4 architectural decisions; headings such as "ACTIVE in Module 3" refer to the earlier coursework and must not be read as a current deploy specification. The [final ADR-001](../docs/ADR-001.md) and [same-origin ADR-002](../docs/ADR-002.md) define the actual November 2026 deployment. The current deployment host is Cloudflare Workers, using static assets under `public/` and root `worker.js`, with the existing D1 database.
+
+### Data and trust boundaries, with directions
+
+```mermaid
+flowchart LR
+  U[Browser, fictional demo user] -->|POST service, monthly price, optional renewal date| W[Cloudflare Worker]
+  U -->|GET / and static files| W
+  W -->|validated, parameterized SQL INSERT/SELECT/DELETE| D[(Shared Cloudflare D1 table)]
+  D -->|Stored rows| W
+  W -->|JSON entries, success or error codes| U
+  R[GitHub / Codespaces developer] -->|Wrangler deployment and configuration| W
+  A[AI builder or coding assistant] -.->|Public code and synthetic examples only; review required| R
+```
+
+**Boundary A: browser → Cloudflare.** The name of a streaming service, a monthly price, and optional renewal date are **sent out of the browser** in JSON on save. The Worker performs validation and uses SQL `prepare().bind()`. The response and saved list travel back to the browser. Cloudflare also receives network request metadata and runs the Worker. No bank or streaming password should be entered.
+
+**Boundary B: Cloudflare Worker ↔ D1.** One `entries` table stores synthetic service, price and optional renewal date. The Worker reads all stored entries, and accepts create/delete actions. There is **no authentication or per-user key**, so CORS and same-origin hosting cannot provide privacy. The stop rule in [DECISION-001](../docs/DECISION-001.md) is **zero real billing records** until server-side isolation is verified.
+
+**Boundary C: developer → GitHub / Cloudflare.** Source and dependency lockfile are committed to GitHub; Wrangler deployment is authorized by the owner's local Cloudflare identity. Secret tokens remain outside Git and AI prompts. The live worker uses an existing D1 binding shared with the predecessor HW5 app, so remote migrations/destructive data changes require special care.
+
+**Boundary D: public source → AI developer tool.** [CLAUDE.md](CLAUDE.md) and the [DDRs](../docs/DDR-LOG.md) limit delegation. AI models receive public code and synthetic examples when authorized, not private data or Cloudflare login credentials. Model output needs human authorization before runtime deployment.
+
+### Instructions versus enforceable structures
+
+`AGENTS.md`, `CLAUDE.md`, `STANDARDS.md`, and instructions in feature documents are **promises/guidance**. The deployable security and verification **structures** are exact-pinned `package.json`/`package-lock.json`, the Wrangler D1 binding, SQL parameter binding, explicit request validation, Git history, local API tests and controlled deployment credentials. **Missing structure:** per-user authorization. A prohibition in a prompt file cannot make the public endpoint private.
+
+### Deployment rollback and data recovery
+
+The [DEPLOY.md](../docs/DEPLOY.md) runbook records the owner-approved procedure for listing deployments and choosing a known-good Cloudflare Worker version, along with a disposable test procedure. **No production rollback was exercised, and no remote D1 data was restored.** Rolling back Worker code does not reverse D1 data or schema; preserve compatible versions and test recovery on an isolated database before claiming readiness.
+

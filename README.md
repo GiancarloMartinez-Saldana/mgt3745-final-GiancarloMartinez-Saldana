@@ -87,6 +87,18 @@ API=http://127.0.0.1:8787 npm test
 
 **Known next-week limitations:** The API currently exposes a shared D1 table without authentication (use only fictional data). The next module calls for a numeric **stop guardrail** in [EVALS.md](context/EVALS.md) and [DECISION-001.md](docs/DECISION-001.md) **committed before any real-user deployment**, and a **tested rollback procedure** documented in [DEPLOY.md](docs/DEPLOY.md) plus a dated [AUDIT.md](docs/AUDIT.md) note. Those additional Module 12 controls are **not yet complete**. Prior deployment was a synthetic-data demonstration, not a claim of real-user readiness.
 
+## November 14 readiness improvements (post-snapshot)
+
+The professor's November 17 milestone refers to the **November 12** repo snapshot. These are **subsequent fixes**, not items represented as present in that historical snapshot:
+
+- **All context files reconciled:** [the dated first context audit](docs/AUDIT.md) gives a verdict and reason per file. [AGENTS.md](context/AGENTS.md) now documents the real root Worker and Codespaces commands; [CLAUDE.md](context/CLAUDE.md) separates AI instructions from enforceable structures; [DESIGN.md](context/DESIGN.md) is merged into the existing [STYLE.md](context/STYLE.md) authority; [SKILLS.md](context/SKILLS.md) contains evidence-linked project practices.
+- **Module 12 trust boundary:** the [current architecture addendum](context/ARCHITECTURE.md#final-project-addendum--november-14-2026-not-part-of-original-hw4-gate) maps directions of browser → Worker ↔ D1 data, developer deployments, and AI/code review. **No real/private user data is safe in the existing shared D1 API.**
+- **Forward-looking go/no-go rules:** [DECISION-001](docs/DECISION-001.md) and the [EVALS appendix](context/EVALS.md#final-project-verification--prospective-stop-gate-append-only-update-2026-11-14) require zero unauthorized cross-user operations, all core tests passing, zero unresolved high/critical advisories, and a successful disposable restore before any real-user launch. This prospective rule was written **after** the fictional-data demo.
+- **Recovery/runbook:** [DEPLOY.md](docs/DEPLOY.md#rollback-runbook--prepared-november-14-2026-not-yet-rehearsed) describes an explicit Cloudflare Worker rollback decision and a disposable-D1 recovery rehearsal. **No rollback and no remote D1 restore have been tested**; the verified prior exit step was a **local SQL export** only.
+- **Evidence rather than invented research:** [SELF-REVIEW.md](docs/SELF-REVIEW.md) provides critique and documented weaknesses; [FEEDBACK.md](docs/FEEDBACK.md) provides a prospective consent-safe synthetic-data user task protocol, with **zero** new user sessions claimed.
+
+**Outstanding real checks before claiming real-user readiness:** server-side user authentication and isolation, controlled cross-user negative tests, sandbox D1 import/restore, a deliberate rollback rehearsal on a *separate* Worker, new dated user feedback, and any required final presentation media. None should be claimed as completed unless actually observed. Historical HW5 screenshot/GIF evidence remains linked from the original HW5 repository and is not presented as a new final-project recording.
+
 ## AI Use
 
 HW5 records its use of Claude Code, bolt.new, and Google AI Studio in the original DDR files. ChatGPT with a GitHub connection was used on November 11, 2026 to transfer and organize the source files, identify a narrower runtime dependency set, review vendor information and create the sourcing audit. The user subsequently ran the copied tests in Codespaces against the local Worker and reported **7 passed, 0 failed**; npm audit returned **0 vulnerabilities** after the Wrangler update. A local D1 export was also verified.

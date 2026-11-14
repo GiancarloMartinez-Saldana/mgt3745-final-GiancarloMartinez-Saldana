@@ -85,3 +85,23 @@ The rows that became code in HW5:
 | Survive cleared cache (S-HW4-3) | PASS | human (README GIF); S-HW5-4 extends it to the date |
 | Server unreachable / 500 (U-HW4-6) | PASS | human (`?serverDown`, docs/server-unreachable.png) |
 | HW3 #5 renewal date | FAIL | evals #5–#7, now PASS locally |
+
+## Final-project verification / prospective stop gate (append-only update, 2026-11-14)
+
+**Historical provenance:** Sections 1–5 above are the HW5 RAT, prediction and evaluations. The RAT and initial Prediction Stakes were first committed in [HW5 commit `4964e4fa3`](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5/commit/4964e4fa3) on October 1, 2026, before the delegated HW5 feature build. They were **copied to the new final repository** on November 11/12; they were not newly predicted before this final repository's code. Historical screenshot links above point to the **HW5 repo** and may not resolve within this final repository; use the [HW5 README](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5#see-it-work) for those original visuals.
+
+**Final-project results actually reported:** On November 12, 2026, local Worker with local D1 returned **7 of 7 passing** API tests from `evals/worker.test.js`; `npm audit` after upgrading Wrangler to exactly 4.161.0 returned **0 vulnerabilities**; the existing Cloudflare Worker + 3 static assets deployed successfully; a user confirmed fictional save → refresh/persistence → delete with updated total on the deployed page. A **local** D1 export contained the `entries` schema (641 bytes). These facts do **not** establish authenticated privacy, actual user adoption, data restoration, new browser automation, or a rollback test.
+
+**Forward-looking stop rule (adopted November 14, not preexisting at the prior deployment):** See [DECISION-001](../docs/DECISION-001.md). Before any real-user/private-data deployment: **0 sensitive entries in a shared unauthenticated table; 0 unauthorized read/write/delete operations across two simulated accounts; all 7 core API tests passing (or a documented replacement suite); 0 unresolved high/critical npm audit issues; and at least 1 synthetic D1 record successfully recovered on a disposable database.** A failure on any check means **STOP**. The present implementation fails the auth/isolation precondition, so no real-person billing records should be entered.
+
+**Later evidence table (do not prefill as PASS):**
+
+| Test | Measured on | Actual result | Outcome |
+|---|---|---|---|
+| 7 local API tests | 2026-11-12 | 7 passed, 0 failed, user-provided terminal output | PASS on **local** Worker |
+| npm security scan | 2026-11-12 | 0 reported vulnerabilities, user-provided terminal output | PASS at version 4.161.0 |
+| Production fictional CRUD smoke | 2026-11-12 | User confirmed save/reload/delete with updated total | PASS by manual report |
+| Two-person access isolation | Not performed | No authentication exists | **STOP real-user launch** |
+| Disposable D1 SQL restore | Not performed | Local SQL export only | PENDING |
+| Worker rollback rehearsal | Not performed | Procedure documented in DEPLOY.md only | PENDING |
+| Independent usability task study | Not performed | Historical interviews are not an app usability study | PENDING |

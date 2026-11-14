@@ -36,6 +36,10 @@ The existing Worker is **not authenticated**. Anyone who can reach the API can v
 
 Remote D1 export and restore have **not** been verified. The live renewal-date round-trip was not separately checked during the final smoke test. See [the sourcing audit](SOURCING-AUDIT.md) for vendor, exit, and risk evidence.
 
+## Fresh post-documentation API verification — November 14, 2026
+
+The owner reran `API=http://127.0.0.1:8787 npm test` against the running **local** Worker and shared the complete terminal output: **7 tests, 7 passed, 0 failed, 0 skipped**, total duration **713.171047 ms**. The reported cases cover creation-order GET; missing-text rejection; valid POST/GET persistence; nonpositive-price rejection; optional renewal-date storage/read-back; no-date save; and invalid-calendar-date rejection. This is a **new local test run**, not a production test or deployment. No rollback or remote D1 restoration was run. An updated `npm audit` result has not been supplied in this new check; the earlier November 12 result was 0 vulnerabilities.
+
 ## Rollback runbook — prepared November 14, 2026; NOT YET REHEARSED
 
 **Decision boundary:** The currently deployed Worker is a fictional-data demo using the **same Cloudflare D1 database as HW5**. Rolling back Worker code changes neither persisted rows nor D1 schema. Never test rollback on the production URL merely to complete a checkbox; use a disposable Worker and test database, or obtain explicit owner approval with a safe maintenance window.

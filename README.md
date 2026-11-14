@@ -70,6 +70,23 @@ API=http://127.0.0.1:8787 npm test
 | **Deployment steps and verification** | [docs/DEPLOY.md](docs/DEPLOY.md) |
 | **Deployment decision** | [docs/ADR-002.md](docs/ADR-002.md) |
 
+## November 17 Milestone Check-In — eight-item reading map
+
+**Snapshot policy:** The assignment says the professor reviews the repository at **November 12, 2026, 11:59 PM ET** even though the check-in is listed for **Tuesday, November 17**. Files/updates added after the snapshot are **remediation evidence**, not retroactive evidence for the snapshot. **Nothing is submitted separately** for this 0-point check-in; the professor plans to leave a GitHub Issue. Reply in that Issue with actual follow-up commit links, then close it after the feedback is addressed.
+
+| Item the professor checks | One-click evidence | Current and historical limitations |
+|---|---|---|
+| 1. Framing | [PROJECT.md](context/PROJECT.md) | Reframed cost-awareness prototype; temporary-resolution stance clarified Nov 14, **after** snapshot |
+| 2. Users | [USERS.md](context/USERS.md) | Two September interviews; cost-tracking jobs explicitly labeled **inferences**, added Nov 14 |
+| 3. Features | [FEATURES.md](context/FEATURES.md) | Six Kano classes and HW4/HW5 EARS rows; current scope reconciled Nov 14; old recommendation flows **not shipped** |
+| 4. ADR-001 and the Gate | [Final ADR-001](docs/ADR-001.md), [historical weighted Gate](context/ARCHITECTURE.md#the-gate-hw4-rerun) | HW4 Build 97 vs Buy 73 vs Delegate 62 (weights total 24); [final deployment ADR](docs/ADR-002.md) documents same-origin choice |
+| 5. RAT and Prediction Stake | [EVALS.md](context/EVALS.md#1-rat-statement), [Stake](context/EVALS.md#2-prediction-stake-before-build-october-1-2026-committed-before-any-tool-saw-the-spec) | HW5 source [pre-delegation commit](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5/commit/4964e4fa3) (Oct 1, 2026); **copied** into final repo Nov 11/12, not a new pre-final-build prediction |
+| 6. First DDR | [HW5 DDR-001 — bolt.new/Google AI Studio](https://github.com/GiancarloMartinez-Saldana/mgt3745-hw5/blob/main/docs/DDR-001.md), [final DDR log](docs/DDR-LOG.md) | Includes delegated files, tool-choice rationale, net **−2 hours**, trust boundary and human verification; original document remains in HW5 |
+| 7. First context audit | [AUDIT.md](docs/AUDIT.md) | **Unfilled at Nov 12 snapshot**; first substantive audit written Nov 14 with verdict and checkable reason for each `context/` file |
+| 8. Sourcing Audit (HW7) | [SOURCING-AUDIT.md](docs/SOURCING-AUDIT.md), [TOOLS.md](context/TOOLS.md) | Pre-evidence weights/Stake, vendor evidence, actual upgrade, local D1 exit test, recorded deployment |
+
+**Known next-week limitations:** The API currently exposes a shared D1 table without authentication (use only fictional data). The next module calls for a numeric **stop guardrail** in [EVALS.md](context/EVALS.md) and [DECISION-001.md](docs/DECISION-001.md) **committed before any real-user deployment**, and a **tested rollback procedure** documented in [DEPLOY.md](docs/DEPLOY.md) plus a dated [AUDIT.md](docs/AUDIT.md) note. Those additional Module 12 controls are **not yet complete**. Prior deployment was a synthetic-data demonstration, not a claim of real-user readiness.
+
 ## AI Use
 
 HW5 records its use of Claude Code, bolt.new, and Google AI Studio in the original DDR files. ChatGPT with a GitHub connection was used on November 11, 2026 to transfer and organize the source files, identify a narrower runtime dependency set, review vendor information and create the sourcing audit. The user subsequently ran the copied tests in Codespaces against the local Worker and reported **7 passed, 0 failed**; npm audit returned **0 vulnerabilities** after the Wrangler update. A local D1 export was also verified.
